@@ -14,14 +14,38 @@
         <div class="jumbotron">
             <div class="row">
                 <div class="col-md-8">
-                    <!-- Feel free to delete the paragraph after implementation -->
-                    <p>Create an appropriate form to capture the asset's details as indicated in the description. Upon successfull registration, an asset code matching the criteria must be generated and communicated to the user in form of an alert.</p>
+                    <form id="assetRegistrationForm">
+                        <div class="form-group">
+                            <label for="assetName">Asset Name:</label>
+                            <input type="text" class="form-control" id="assetName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="estimatedCost">Estimated Cost:</label>
+                            <input type="number" class="form-control" id="estimatedCost" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="ownersTIN">Owner's TIN:</label>
+                            <input type="text" class="form-control" id="ownersTIN" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="assetType">Type (Fixed/Movable):</label>
+                            <select class="form-control" id="assetType" required>
+                                <option value="Fixed">Fixed</option>
+                                <option value="Movable">Movable</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="assetCode">Asset Code:</label>
+                            <input type="text" class="form-control" id="assetCode" disabled>
+                        </div>
+                        <button type="button" class="btn btn-success" onclick="registerAsset()">Register Asset</button>
+                    </form>
                 </div>
                 <div class="col-md-4">
-                        <form class="form-inline pt-10">
-                          <input class="form-control mr-sm-2" type="search" placeholder="ENTER ASSET CODE" aria-label="Search"> <br><br>
-                          <button class="btn btn-success" type="submit">SEARCH ASSET</button>
-                        </form>
+                    <form class="form-inline pt-10">
+                        <input class="form-control mr-sm-2" type="search" placeholder="ENTER ASSET CODE" aria-label="Search"> <br><br>
+                        <button class="btn btn-success" type="submit">SEARCH ASSET</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -31,9 +55,8 @@
         <div class="jumbotron">
             <h3 class="text-center">REGISTERED ASSETS</h3>
             <div class="row">
-                <!-- Feel free to delete the paragraph after implementation -->
-                <p>Create a tabular view of the assets displaying the first 10 with navigation buttons to the next batch of 10 Assets.</p>
-                <p>Upon search of an asset from the search field above, the searched Asset should be the only one returned in the tabular view.</p>
+                <!-- Placeholder for displaying registered assets -->
+                <div id="registeredAssets"></div>
             </div>
         </div>
     </div>
@@ -41,5 +64,34 @@
     <div class="row text-center">
         <a class="btn btn-primary" href="index.html">BACK HOME</a>
     </div>
+
+    <script>
+        function registerAsset() {
+            // Get asset details from the form
+            var assetName = document.getElementById("assetName").value;
+            var estimatedCost = document.getElementById("estimatedCost").value;
+            var ownersTIN = document.getElementById("ownersTIN").value;
+            var assetType = document.getElementById("assetType").value;
+
+            // Generate asset code based on the given criteria
+            var assetCode = generateAssetCode(ownersTIN);
+
+            // Display asset code in the form
+            document.getElementById("assetCode").value = assetCode;
+
+            // Additional logic to handle asset registration (e.g., store in a database)
+            // This is where you may want to send the data to your backend for processing
+            // or perform any other necessary actions.
+        }
+
+        function generateAssetCode(ownersTIN) {
+            // Generate an asset code based on the given criteria
+            var uniqueCode = ownersTIN.slice(-3); // Last three numbers of owner's TIN
+            var alphabetCode = 'A'; // Fixed alphabet code at the start
+
+            var assetCode = alphabetCode + uniqueCode;
+            return assetCode;
+        }
+    </script>
 </body>
 </html>
