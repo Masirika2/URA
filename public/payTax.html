@@ -13,10 +13,18 @@
     <div class="container">
         <div class="jumbotron">
             <div class="row">
-                
-                    <!-- Feel free to delete the paragraph after implementation -->
-                    <p>Create an appropriate form to facilitate the payment of Income tax. <small>Remember: </small> All we need is a field where to enter the total profits made, then 18% of the profits is returned as the tax payable. A field requesting for the TIN is returned, TIN entered, and then the pay button is clicked to complete the process.</p>
-                    <p>Upon successful payment, a thank you alert containing the payer's name should be displayed.</p>
+                <form id="taxForm">
+                    <div class="form-group">
+                        <label for="totalProfits">Total Profits Made:</label>
+                        <input type="number" class="form-control" id="totalProfits" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tin">Tax Identification Number (TIN):</label>
+                        <input type="text" class="form-control" id="tin" required>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="calculateTax()">Calculate Tax</button>
+                    <button type="button" class="btn btn-success" onclick="completePayment()">Pay</button>
+                </form>
             </div>
         </div>
     </div>
@@ -24,5 +32,26 @@
     <div class="row text-center">
         <a class="btn btn-primary" href="index.html">BACK HOME</a>
     </div>
+
+    <script>
+        function calculateTax() {
+            // Get the total profits from the form
+            var totalProfits = parseFloat(document.getElementById("totalProfits").value);
+
+            // Calculate 18% of the profits as tax payable
+            var taxPayable = 0.18 * totalProfits;
+
+            // Display the calculated tax in an alert
+            alert("Tax Payable: $" + taxPayable.toFixed(2));
+        }
+
+        function completePayment() {
+            // Get the payer's name from the form (you may need to fetch this from the database)
+            var payerName = "John Doe"; // Replace with actual logic to get payer's name
+
+            // Display a thank you alert with the payer's name
+            alert("Thank you, " + payerName + "!");
+        }
+    </script>
 </body>
 </html>
