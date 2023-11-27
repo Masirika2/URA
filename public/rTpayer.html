@@ -9,20 +9,51 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 <body>
-
     <h2 class="text-center"> TAX PAYER REGISTRATION</h2>
     <div class="container">
         <div class="jumbotron">
             <div class="row">
                 <div class="col-md-8">
-                    <!-- Feel free to delete the paragraph after implementation -->
-                    <p>Create an appropriate form to capture the payer's details as indicated in the description. Upon successfull registration, a TIN matching the criteria must be generated and communicated to the user in form of an alert.</p>
+                    <form id="payerRegistrationForm">
+                        <div class="form-group">
+                            <label for="payerName">Payer's Name:</label>
+                            <input type="text" class="form-control" id="payerName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="dateOfBirth">Date of Birth:</label>
+                            <input type="date" class="form-control" id="dateOfBirth" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="occupation">Occupation:</label>
+                            <input type="text" class="form-control" id="occupation" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="gender">Gender:</label>
+                            <select class="form-control" id="gender" required>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="phoneNumber">Phone Number:</label>
+                            <input type="tel" class="form-control" id="phoneNumber" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address:</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="annualIncome">Expected Annual Income:</label>
+                            <input type="number" class="form-control" id="annualIncome" required>
+                        </div>
+                        <button type="button" class="btn btn-success" onclick="registerPayer()">Register Payer</button>
+                    </form>
                 </div>
                 <div class="col-md-4">
-                        <form class="form-inline pt-10">
-                          <input class="form-control mr-sm-2" type="search" placeholder="ENTER TIN" aria-label="Search"> <br><br>
-                          <button class="btn btn-success" type="submit">SEARCH PAYER</button>
-                        </form>
+                    <form class="form-inline pt-10">
+                        <input class="form-control mr-sm-2" type="search" placeholder="ENTER TIN" aria-label="Search" id="searchTIN"> <br><br>
+                        <button class="btn btn-success" type="button" onclick="searchPayer()">SEARCH PAYER</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -32,9 +63,8 @@
         <div class="jumbotron">
             <h3 class="text-center">REGISTERED TAX PAYERS</h3>
             <div class="row">
-                <!-- Feel free to delete the paragraph after implementation -->
-                <p>Create a tabular view of the tax payers displaying the first 10 with navigation buttons to the next batch of 10 payers.</p>
-                <p>Upon search of a tax payer from the search field above, the searched payer should be the only one returned in the tabular view.</p>
+                <!-- Placeholder for displaying registered tax payers -->
+                <div id="registeredPayers"></div>
             </div>
         </div>
     </div>
@@ -42,6 +72,75 @@
     <div class="row text-center">
         <a class="btn btn-primary" href="index.html">BACK HOME</a>
     </div>
-    
+
+    <script>
+        function registerPayer() {
+            // Get payer details from the form
+            var payerName = document.getElementById("payerName").value;
+            var dateOfBirth = document.getElementById("dateOfBirth").value;
+            var occupation = document.getElementById("occupation").value;
+            var gender = document.getElementById("gender").value;
+            var phoneNumber = document.getElementById("phoneNumber").value;
+            var email = document.getElementById("email").value;
+            var annualIncome = document.getElementById("annualIncome").value;
+
+            // Generate TIN based on the given criteria
+            var tin = generateTIN();
+
+            // Display TIN in an alert
+            alert("Registration successful!\nTIN: " + tin);
+        }
+
+        function generateTIN() {
+            // Generate a TIN based on the given criteria (current year, gender, and unique figures)
+            var currentYear = new Date().getFullYear();
+            var gender = document.getElementById("gender").value.charAt(0).toUpperCase();
+            var uniqueFigures = Math.floor(100000 + Math.random() * 900000);
+            
+            var tin = currentYear + '/' + gender + '/' + uniqueFigures;
+            return tin;
+        }
+
+        function searchPayer() {
+            // Get TIN from the search input
+            var searchTIN = document.getElementById("searchTIN").value;
+
+            // Perform search logic (you may need to fetch this from the database)
+            // Display the details or show an alert if not found
+            var payerDetails = fetchPayerDetails(searchTIN);
+            if (payerDetails) {
+                displayPayerDetails(payerDetails);
+            } else {
+                alert("Payer not found!");
+            }
+        }
+
+        function fetchPayerDetails(tin) {
+            // Placeholder function to fetch payer details from the database
+            // Replace this with actual logic to fetch details based on the TIN
+            return {
+                payerName: " ", // Replace with actual payer name
+                dateOfBirth: "", // Replace with actual date of birth
+                occupation: "", // Replace with actual occupation
+                gender: "Male", // Replace with actual gender
+                phoneNumber: "", // Replace with actual phone number
+                email: "", // Replace with actual email
+                annualIncome: "" // Replace with actual annual income
+            };
+        }
+
+        function displayPayerDetails(payerDetails) {
+            // Display payer details in the registeredPayers div or any other suitable element
+            var detailsHtml = "<p><strong>Payer's Name:</strong> " + payerDetails.payerName + "</p>" +
+                              "<p><strong>Date of Birth:</strong> " + payerDetails.dateOfBirth + "</p>" +
+                              "<p><strong>Occupation:</strong> " + payerDetails.occupation + "</p>" +
+                              "<p><strong>Gender:</strong> " + payerDetails.gender + "</p>" +
+                              "<p><strong>Phone Number:</strong> " + payerDetails.phoneNumber + "</p>" +
+                              "<p><strong>Email:</strong> " + payerDetails.email + "</p>" +
+                              "<p><strong>Annual Income:</strong> $" + payerDetails.annualIncome + "</p>";
+
+            document.getElementById("registeredPayers").innerHTML = detailsHtml;
+        }
+    </script>
 </body>
 </html>
